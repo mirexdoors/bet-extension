@@ -1,0 +1,23 @@
+{
+  "name": "bet-extension",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+     "build": "NODE_ENV=production rm -rf ./dist && mkdir dist &&  cp src/manifest.json dist/ && parcel build src/{content-script.js}"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mirexdoors/bet-extension.git"
+  },
+  "author": "mirexdoors",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mirexdoors/bet-extension/issues"
+  },
+  "homepage": "https://github.com/mirexdoors/bet-extension#readme",
+  "devDependencies": {
+    "parcel": "^2.0.0-rc.0"
+  }
+}

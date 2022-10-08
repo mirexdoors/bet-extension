@@ -7,7 +7,7 @@
     <style>
         body {
             color: #CCC;
-            background: #000;
+            background: #292929;
         }
 
         .container {
@@ -16,20 +16,54 @@
             min-width: 350px;
             min-height: 400px;
             display: flex;
+            flex-direction: column;
+            row-gap: 40px;
             justify-content: center;
             align-items: center;
         }
 
         .btn {
             width: 200px;
-            padding: 16px;
+            padding: 20px;
+            font-size: 24px;
             font-weight: bold;
-            cursor: pointer;
+            color: black;
+            background: #ffc311;
+            border: none;
+            cursor: pointer
+        }
+
+        .btn:hover {
+            background: #ffe311;
+        }
+
+        .btn:disabled {
+            cursor: not-allowed;
+            -webkit-animation: blink1 3s linear infinite;
+            animation: blink1 3s linear infinite;
+        }
+
+
+        @-webkit-keyframes blink1 {
+            0% { color: rgba(34, 34, 34, 1); }
+            50% { color: rgba(34, 34, 34, 0); }
+            100% { color: rgba(34, 34, 34, 1); }
+        }
+        @keyframes blink1 {
+            0% { color: rgba(34, 34, 34, 1); }
+            50% { color: rgba(34, 34, 34, 0); }
+            100% { color: rgba(34, 34, 34, 1); }
+        }
+
+        h1 {
+            color: #ffc311;
         }
     </style>
 </head>
 <body>
 <div class="container">
+    <h1>Order in Holland Casino</h1>
+
     <button  id="start" class="btn" type="button">
         Start!
     </button>

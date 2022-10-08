@@ -1,11 +1,17 @@
 const btn = document.getElementById('start')
 
+const changeBtn = (msg) => {
+    if (msg && msg.signal === "processing") {
+        btn.innerText = 'processing'
+        btn.disabled = true
+    }
+}
+
 const setAction = () => {
-    console.log(1111)
-    chrome.tabs.query({active: true, currentWindow: true}, (tabs)  => {
-        console.log(222, tabs)
-        chrome.tabs.sendMessage(tabs[0].id, 'payload!!!');
+    chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
+        chrome.tabs.sendMessage(tabs[0].id, 'start', changeBtn);
     });
 }
+
 
 btn.addEventListener('click', setAction)

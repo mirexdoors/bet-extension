@@ -1,14 +1,18 @@
 {
   "name": "Bet extension",
-  "version": "1.0",
+  "version": "2.0",
   "description": "",
-  "permissions": ["tabs", "storage"],
+  "permissions": [
+    "tabs",
+    "storage",
+    "*://vestigingen.hollandcasino.nl/en/spelen/poker/vestigingen"
+  ],
   "browser_action": {
     "default_popup": "popup.html"
   },
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
+      "matches": ["*://vestigingen.hollandcasino.nl/en/spelen/poker/vestigingen"],
       "js": ["content-script.js"]
     }
   ],

@@ -1,32 +1,42 @@
-// TODO
-/*
-1. При первом заходе необходимо ставить знак в локал сторйдж, что мы начали скрипт  +++
-2. Отправлять сообщение, что скрипт запущен
-3. Если есть признак в сторейдже, то рефрешим страницу N раз
- */
-
-const REFRESH_COUNT = 5
+const REFRESH_COUNT = 50
 const LOCAL_STORAGE_KEY = 'BET_SCRIPT_STARTING'
 
-const btnSelector = '.fn-event-item button'
+const btnSelector = '.fn-event-item button.fn-new-prs-reserve'
 const completeReservationSelector = '#hc-modal a.fn-redirect'
 const acceptSelector = 'terms'
 const viewOrderSelector = 'button.fn-checkout'
 const completeOrderSelector = ''
 
+
+let refreshCount = localStorage.getItem(LOCAL_STORAGE_KEY);
+setTimeout(() => {
+    if (refreshCount < REFRESH_COUNT) {
+        chrome.runtime.sendMessage({
+            signal: 'start'
+        })
+    } else {
+        chrome.runtime.sendMessage({
+            signal: 'fail'
+        })
+        localStorage.removeItem(LOCAL_STORAGE_KEY)
+    }
+}, 5000)
+
+
 chrome.runtime.onMessage.addListener(async (_request, _sender, response) => {
-    const refreshCount = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (!refreshCount) {
         localStorage.setItem(LOCAL_STORAGE_KEY, '1')
     }
+
+    response({signal: 'processing'})
 
     /**
      * Здесь условие
      */
     const reserveBtn = document.querySelector(btnSelector)
+
     if (reserveBtn) {
-        response({signal: 'processing'})
-        return false;
+        localStorage.removeItem(LOCAL_STORAGE_KEY)
         /**
          * reserve
          */
@@ -57,14 +67,25 @@ chrome.runtime.onMessage.addListener(async (_request, _sender, response) => {
             setTimeout(() => {
                 /**
                  * complete order
-                 */
+                 **/
                 const completeOrderNode = document.querySelector(completeOrderSelector)
                 // completeOrderNode.click()
             }, 500)
 
         }, 1500)
     } else {
-        document.location.reload()
+        const newCount = Number(refreshCount) + 1
+
+        if (newCount < REFRESH_COUNT) {
+            localStorage.setItem(LOCAL_STORAGE_KEY, String(newCount))
+            document.location.reload()
+        } else {
+            refreshCount = 0
+            localStorage.removeItem(LOCAL_STORAGE_KEY)
+            chrome.runtime.sendMessage({
+                signal: 'fail'
+            })
+        }
     }
 })
 
